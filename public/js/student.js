@@ -184,11 +184,11 @@ function renderStatus() {
   const pct = Math.min(100, Math.round((s.credits / M.MIN_CREDITS) * 100));
   const creditCls = s.credits > M.MAX_CREDITS ? 'over' : s.credits >= M.MIN_CREDITS ? 'done' : '';
   const meters = [
-    h('div', { class: `meter ${creditCls}`, title: `Completed plus planned credits. You need ${M.MIN_CREDITS} to ${M.MAX_CREDITS} to graduate; the planner won't let you go over ${M.MAX_CREDITS}.` },
+    h('div', { class: `meter ${creditCls}`, title: `Completed plus planned credits. You need at least ${M.MIN_CREDITS} to graduate.` },
       h('span', { class: 'lbl' }, 'Credits'),
       h('b', {}, `${s.credits}`),
       h('span', { class: 'bar' }, barFill(pct)),
-      h('span', { class: 'small muted' }, `${M.MIN_CREDITS}–${M.MAX_CREDITS} needed to graduate`)),
+      h('span', { class: 'small muted' }, `At least ${M.MIN_CREDITS} needed to graduate`)),
     ...s.groups.map(g => h('div', { class: `meter ${g.have >= g.need ? 'done' : ''}`, title: g.courses.join(', ') || 'None yet' },
       h('span', { class: 'lbl' }, g.label),
       h('b', {}, `${g.have} / ${g.need}`),
@@ -515,7 +515,7 @@ function renderPrint() {
     h('h2', {}, 'Requirements'),
     h('table', {}, h('tbody', {},
       ...s.groups.map(g => h('tr', {}, h('td', {}, g.label), h('td', {}, `${g.have} of ${g.need}`), h('td', {}, g.courses.join(', ') || '—'))),
-      h('tr', {}, h('td', {}, 'Credits'), h('td', {}, `${s.credits}`), h('td', {}, `Required ${M.MIN_CREDITS}–${M.MAX_CREDITS}`)))),
+      h('tr', {}, h('td', {}, 'Credits'), h('td', {}, `${s.credits}`), h('td', {}, `Minimum ${M.MIN_CREDITS} required`)))),
     h('p', {}, h('b', {}, s.complete ? 'This plan meets the degree requirements.' : 'This plan does not yet meet all degree requirements.')),
     external.length ? h('p', {}, 'Other prior coursework: ', external.join(', ')) : null,
     hard.length || soft.length ? h('div', {}, h('h2', {}, 'Notes'), h('ul', {}, ...hard.map(x => h('li', {}, x.message)), ...soft.map(x => h('li', {}, x.message)))) : null,
