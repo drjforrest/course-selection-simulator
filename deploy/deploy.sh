@@ -12,8 +12,9 @@ SERVER_USER="admin"
 SERVER_HOST="Contabo-vps6"
 SERVER_PATH="/var/www/course-simulator"
 SERVICE_NAME="course-simulator"
-SERVICE_PORT="3010"
+SERVICE_PORT="3011"
 DOMAIN="course-simulator.drjforrest.com"
+CADDY_SITE="/etc/caddy/conf.d/${SERVICE_NAME}.caddy"  # imported by /etc/caddy/Caddyfile
 
 SSH_TARGET="${SERVER_USER}@${SERVER_HOST}"
 SSH_OPTS=(-o Ciphers=aes256-gcm@openssh.com)
@@ -30,7 +31,7 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; }
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-for f in package.json server.js data/base.json public/index.html; do
+for f in package.json server.js client-ip.js data/base.json public/index.html; do
 	if [ ! -f "$PROJECT_ROOT/$f" ]; then
 		error "$f not found under $PROJECT_ROOT"
 		exit 1
@@ -104,23 +105,20 @@ setup() {
 		sudo systemctl enable ${SERVICE_NAME}
 	"
 
-	info "Adding Caddy site block for ${DOMAIN}"
+	info "Writing Caddy site ${CADDY_SITE}"
 	render "$SCRIPT_DIR/Caddyfile.snippet" | remote "
 		set -e
-		if grep -q '^${DOMAIN} ' /etc/caddy/Caddyfile; then
-			echo 'site block already present, leaving Caddyfile alone'
-			cat > /dev/null
-			exit 0
-		fi
-		backup=/etc/caddy/Caddyfile.bak.\$(date +%Y%m%d-%H%M%S)
-		sudo cp /etc/caddy/Caddyfile \$backup
-		sudo tee -a /etc/caddy/Caddyfile > /dev/null
+		grep -q 'conf.d/\\*.caddy' /etc/caddy/Caddyfile || { echo '/etc/caddy/Caddyfile does not import conf.d/*.caddy'; exit 1; }
+		cat > /tmp/${SERVICE_NAME}.caddy
+		backup=''
+		if [ -f ${CADDY_SITE} ]; then backup=${CADDY_SITE}.bak.\$(date +%Y%m%d-%H%M%S); sudo cp ${CADDY_SITE} \$backup; fi
+		sudo mv /tmp/${SERVICE_NAME}.caddy ${CADDY_SITE}
 		if sudo caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile > /dev/null 2>&1; then
 			sudo systemctl reload caddy
-			echo \"Caddy reloaded (backup: \$backup)\"
+			echo 'Caddy reloaded'
 		else
-			sudo cp \$backup /etc/caddy/Caddyfile
-			echo 'Caddy validation failed; restored the backup'
+			if [ -n \"\$backup\" ]; then sudo mv \$backup ${CADDY_SITE}; else sudo rm -f ${CADDY_SITE}; fi
+			echo 'Caddy validation failed; previous config restored'
 			exit 1
 		fi
 	"
@@ -144,7 +142,7 @@ deploy() {
 	rsync -az --delete -e "ssh ${SSH_OPTS[*]}" --exclude '.DS_Store' \
 		"$PROJECT_ROOT/public/" "${SSH_TARGET}:${SERVER_PATH}/public/"
 	rsync -az -e "ssh ${SSH_OPTS[*]}" \
-		"$PROJECT_ROOT/server.js" "$PROJECT_ROOT/package.json" "${SSH_TARGET}:${SERVER_PATH}/"
+		"$PROJECT_ROOT/server.js" "$PROJECT_ROOT/client-ip.js" "$PROJECT_ROOT/package.json" "${SSH_TARGET}:${SERVER_PATH}/"
 	rsync -az -e "ssh ${SSH_OPTS[*]}" \
 		"$PROJECT_ROOT/data/base.json" "${SSH_TARGET}:${SERVER_PATH}/data/"
 
@@ -153,7 +151,7 @@ deploy() {
 		set -e
 		sudo systemctl restart ${SERVICE_NAME}
 		for i in 1 2 3 4 5 6 7 8 9 10; do
-			curl -fsS -o /dev/null http://127.0.0.1:${SERVICE_PORT}/api/session && break
+			curl -fs -o /dev/null http://127.0.0.1:${SERVICE_PORT}/api/session && break
 			sleep 1
 		done
 		if ! curl -fsS -o /dev/null http://127.0.0.1:${SERVICE_PORT}/api/session; then

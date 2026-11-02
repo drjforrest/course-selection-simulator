@@ -12,6 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { clientIp } from './client-ip.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, 'public');
@@ -176,7 +177,7 @@ function serveStatic(req, res, pathname) {
 // ---------- routes ----------
 async function handleApi(req, res, pathname) {
   const method = req.method;
-  const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress;
+  const ip = clientIp(req.headers, req.socket.remoteAddress);
 
   if (method === 'GET' && pathname === '/api/data') return send(res, 200, { base, overrides });
   if (method === 'GET' && pathname === '/api/session') return send(res, 200, { faculty: isFaculty(req), configured: !!PASSWORD });

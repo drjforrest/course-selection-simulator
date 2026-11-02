@@ -122,3 +122,13 @@ test('empty summer is optional; empty fall or spring warns', () => {
   const w = M.warnings(data, fallGap).filter(x => /semester off/.test(x.message));
   assert.deepEqual(w.map(x => x.term), ['2027-FA']);
 });
+
+import { clientIp } from '../client-ip.js';
+
+test('client IP: trusts CF-Connecting-IP only from Cloudflare', () => {
+  assert.equal(clientIp({ 'x-forwarded-for': '162.158.1.2', 'cf-connecting-ip': '203.0.113.9' }, '127.0.0.1'), '203.0.113.9');
+  assert.equal(clientIp({ 'x-forwarded-for': '198.51.100.7', 'cf-connecting-ip': '203.0.113.9' }, '127.0.0.1'), '198.51.100.7');
+  assert.equal(clientIp({ 'x-forwarded-for': '1.2.3.4, 198.51.100.7' }, '127.0.0.1'), '198.51.100.7');
+  assert.equal(clientIp({ 'x-forwarded-for': '2606:4700::1', 'cf-connecting-ip': '2001:db8::5' }, '::1'), '2001:db8::5');
+  assert.equal(clientIp({}, '::ffff:127.0.0.1'), '127.0.0.1');
+});
