@@ -1,0 +1,13 @@
+{
+  "name": "mshi-course-selection-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MSHI Course Selection Simulator (no concentration; Boston, Online, Vancouver)",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/",
+    "build-data": "python3 scripts/build_base.py"
+  }
+}

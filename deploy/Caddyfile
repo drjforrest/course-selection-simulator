@@ -1,0 +1,5 @@
+# Replace with your domain. Caddy obtains the HTTPS certificate automatically.
+mshi.example.com {
+	encode gzip
+	reverse_proxy 127.0.0.1:3000
+}

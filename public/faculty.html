@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>MSHI Simulator · Faculty</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/faculty.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>MSHI Course Selection Simulator · Faculty</h1>
+      <span>Tell the student simulator which courses run in each term, and in which formats.</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="actions">
+      <a class="btn" href="/">Student view</a>
+      <button class="btn" id="fac-logout" type="button" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <form class="panel login" id="login" hidden>
+      <h2>Faculty sign-in</h2>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+      </div>
+      <p class="muted small">This page is for program faculty and staff. Ask the program director for the password. Students don't need to sign in; they use the <a href="/">student view</a>.</p>
+      <p class="error" id="login-error" hidden></p>
+      <button class="btn primary" type="submit">Sign in</button>
+    </form>
+
+    <section id="admin" hidden>
+      <details class="panel help" open>
+        <summary>How this page works</summary>
+        <div class="help-grid">
+          <section>
+            <h3>What your changes do</h3>
+            <p>The student simulator uses this information to decide which courses students can place in each term. Changes are saved on the server and apply to every student who opens or reloads the simulator after you save. Plans already open in a student's browser are not updated until they reload.</p>
+            <p>Students never see this page, and nothing students do is stored here.</p>
+          </section>
+          <section>
+            <h3>Where defaults come from</h3>
+            <p>You don't have to fill in every term. For each course and term the simulator uses the first of these that exists:</p>
+            <ol>
+              <li><b>Your setting for that term.</b> If there is none, your most recent setting for the same season (a Spring 2027 setting carries forward to Spring 2028, 2029, and so on).</li>
+              <li><b>The program model</b> for the intake courses: HINF 5101 runs every Spring and Fall, and HINF 5105 and HINF 5106 every Spring, in all formats.</li>
+              <li><b>The course schedule spreadsheet</b> (Spring 2025 to Fall 2026) for the same season, most recent year first.</li>
+            </ol>
+            <p>The <b>Source</b> column shows which one a row is using. Courses with no data at all are shown to students as <i>Unconfirmed</i> and can still be placed, with a warning.</p>
+          </section>
+          <section>
+            <h3>Editing a term</h3>
+            <ol>
+              <li>Choose the <b>Term</b>.</li>
+              <li>Tick each format a course runs in: <b>On-ground</b>, <b>Hybrid</b> or <b>Online</b>. Clear every box to mark it <b>not offered</b>. Changed rows turn yellow.</li>
+              <li>Click <b>Save changes</b>. Leaving or switching terms without saving asks before discarding edits.</li>
+            </ol>
+            <p><b>Use default</b> on a row removes your setting for that course, and <b>Reset whole term to default</b> removes all your settings for the term. Either way, the course goes back to the defaults described above.</p>
+          </section>
+          <section>
+            <h3>Formats and program versions</h3>
+            <p>Boston on-ground students can take on-ground, hybrid and online sections. Online and Vancouver students can take <b>online</b> sections only. A course that runs on-ground or hybrid only is unavailable to them that term.</p>
+            <p>To make a course available to online students, tick <b>Online</b>.</p>
+          </section>
+          <section>
+            <h3>Credits &amp; prerequisites</h3>
+            <p>The second tab holds each course's credits and prerequisites, taken from the 2026–2027 catalogue. Edit them only when the catalogue changes. <b>Revert</b> restores the catalogue values.</p>
+            <p>Students cannot place a course until its prerequisites are completed or planned in an earlier term.</p>
+          </section>
+          <section>
+            <h3>Signing out</h3>
+            <p>You stay signed in for up to 8 hours on this browser. Use <b>Sign out</b> on shared computers. After 10 wrong passwords, sign-in from that address is blocked for 15 minutes.</p>
+          </section>
+        </div>
+      </details>
+      <div class="toolbar">
+        <div class="tabs" id="fac-tabs"></div>
+        <span class="spacer"></span>
+        <span class="muted small" id="updated"></span>
+      </div>
+
+      <section class="panel" id="tab-terms">
+        <div class="toolbar">
+          <label for="term-select"><b>Term</b></label>
+          <select id="term-select"></select>
+          <span class="muted small" id="term-summary"></span>
+          <span class="spacer"></span>
+          <button class="btn" id="term-reset" type="button">Reset whole term to default</button>
+          <button class="btn primary" id="term-save" type="button" disabled>Save changes</button>
+        </div>
+        <p class="muted small">Tick each format a course runs in this term; leave all three clear for “not offered”. Rows you haven't changed show the default (see <b>Source</b>). Remember to click <b>Save changes</b>.</p>
+        <div class="table-wrap">
+          <table class="fac-table">
+            <thead><tr><th>Course</th><th>Title</th><th class="c">On-ground</th><th class="c">Hybrid</th><th class="c">Online</th><th>Source</th><th></th></tr></thead>
+            <tbody id="term-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="tab-courses" hidden>
+        <p class="muted small">Credits and prerequisites come from the 2026–2027 catalogue. Edit them here only if the catalogue changes, then click <b>Save</b> on that row.</p>
+        <p class="muted small"><b>Writing prerequisites:</b> use the course code with a space (<code>HINF 5101</code>). Separate courses that are <i>all</i> required with a semicolon <b>;</b>. Separate alternatives, any <i>one</i> of which is enough, with a vertical bar <b>|</b>. Example: <code>PHTH 5210 | MATH 5010; HINF 5101</code> means “PHTH 5210 or MATH 5010, and also HINF 5101”. Leave the box empty for no prerequisites.</p>
+        <div class="table-wrap">
+          <table class="fac-table">
+            <thead><tr><th>Course</th><th>Title</th><th>Credits</th><th>Prerequisites</th><th>Source</th><th></th></tr></thead>
+            <tbody id="course-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

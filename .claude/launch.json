@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "simulator", "runtimeExecutable": "env", "runtimeArgs": ["FACULTY_PASSWORD=dev-faculty-pass", "DATA_DIR=./dev-data", "node", "server.js"], "port": 3000 }
+  ]
+}

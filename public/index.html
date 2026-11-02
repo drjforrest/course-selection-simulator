@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MSHI Course Selection Simulator</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/student.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>MSHI Course Selection Simulator</h1>
+      <span>MS in Health Informatics · no concentration · Boston, Online, Vancouver</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="actions" id="plan-actions" hidden>
+      <button class="btn" id="help-toggle" type="button" aria-controls="planner-help">Help</button>
+      <button class="btn" id="edit-setup" type="button" title="Change your program version, start term or completed courses. Your plan is kept.">Edit setup</button>
+      <button class="btn" id="print" type="button" title="Print your plan, or choose Save as PDF in the print dialog">Print roadmap</button>
+      <button class="btn primary" id="logout" type="button" title="Clear everything and start again. Nothing is saved.">Log out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Step 1: setup -->
+    <form class="setup" id="setup" autocomplete="off">
+      <section class="panel intro">
+        <h2>Plan your MS in Health Informatics</h2>
+        <p>Use this simulator to lay out the courses you will take in each term until you graduate. It checks your plan against the program rules as you go, then gives you a roadmap to print and discuss with your academic advisor.</p>
+        <ol class="steps">
+          <li><b>Tell us about you.</b> Choose your program version and the term you start planning from.</li>
+          <li><b>Mark courses you have already completed</b>, if any.</li>
+          <li><b>Build your plan.</b> Place courses into terms by dragging them, or click a course to pick a term. The tracker shows what you still need.</li>
+          <li><b>Print your roadmap</b> and take it to your advisor.</li>
+        </ol>
+        <div class="req-box">
+          <h3>What the degree requires</h3>
+          <ul>
+            <li><b>33 to 36 credits</b> in total. Most courses are 3 credits; some are 4.</li>
+            <li><b>Three core courses:</b> HINF 5101 Introduction to Health Informatics; HINF 5105 The American Healthcare System (Boston and Online) <i>or</i> HINF 5106 The Canadian Healthcare System (Vancouver); and HINF 7701 Capstone.</li>
+            <li><b>Two courses from each of four pools:</b> Business Management, Technical, Health Informatics, and General Electives.</li>
+            <li>A grade of <b>B– or higher</b> in every course and a cumulative GPA of at least 3.000.</li>
+          </ul>
+        </div>
+        <p class="callout"><b>Nothing is saved.</b> Your plan exists only in this browser tab. Logging out, closing the tab or refreshing the page erases it, so print or save it as a PDF before you leave.</p>
+        <p class="muted small">This is a planning aid, not registration. Future terms are projected from past schedules and faculty updates and can change. Your advisor has the final word on your plan of study.</p>
+      </section>
+
+      <section class="panel">
+        <h2>1. About you</h2>
+        <div class="field">
+          <label for="student-name">Your name (optional)</label>
+          <input type="text" id="student-name" maxlength="80">
+          <span class="muted small">Printed at the top of your roadmap. It is not stored or sent anywhere.</span>
+        </div>
+        <fieldset class="field">
+          <legend>Program version</legend>
+          <span class="muted small">Pick the version you were admitted to. It sets your healthcare-systems course and which class formats you can take. Not sure? Check your admission letter or Student Hub record, or ask your advisor. Students admitted to a concentration (Personal Health Informatics, Health Informatics Analytics) or the MPH/MS have different requirements and should not use this simulator.</span>
+          <div class="choices" id="variant-choices"></div>
+        </fieldset>
+        <div class="field">
+          <label for="start-term">First term to plan</label>
+          <span class="muted small">The first term you want on your plan, usually the next term you will register for. Plans begin in Spring or Fall; summer terms appear in your plan as optional.</span>
+          <select id="start-term"></select>
+          <span class="muted small" id="start-hint"></span>
+        </div>
+        <div class="field">
+          <label for="semesters-done">Semesters of graduate study in health informatics already completed</label>
+          <input type="number" id="semesters-done" min="0" max="12" value="0">
+          <span class="muted small">Count each term (including summer) in which you completed at least one course in this program. New students enter 0. This matters because the capstone, HINF 7701, can only be taken after at least three semesters of graduate study.</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>2. Courses you have already taken</h2>
+        <p class="muted small">Tick every course you have already finished with a grade of B– or higher, and any transfer credit the program has approved (for example, BCIT DIGH 7000 transfers as HINF 5101). Ticked courses count toward your credits and requirements, and satisfy prerequisites. If you are a new student, leave everything blank.</p>
+        <p class="muted small"><b>Other prerequisite coursework</b> lists courses from outside this program that satisfy a prerequisite here (for example, MATH 5010 for PHTH 6210). Tick them only if you have completed them; they do not count toward your degree credits.</p>
+        <div class="completed-grid" id="completed-grid"></div>
+      </section>
+
+      <div class="form-end">
+        <span class="muted small">You can come back and change any of this later with <b>Edit setup</b>.</span>
+        <button class="btn primary" type="submit">Build my plan →</button>
+      </div>
+    </form>
+
+    <!-- Step 2: planner -->
+    <section id="planner" hidden>
+      <details class="panel help" id="planner-help">
+        <summary>How to use the planner</summary>
+        <div class="help-grid">
+          <section>
+            <h3>1. Read the tracker</h3>
+            <p>The boxes at the top show your progress. <b>Credits</b> must end between 33 and 36. <b>Core</b> needs all three core courses. Each pool needs two courses. A box turns green when it is complete, and the wide box at the end tells you exactly what is still missing.</p>
+            <p>The simulator decides which requirement each course counts toward, choosing whatever fills the most requirements. You don't need to assign them yourself.</p>
+          </section>
+          <section>
+            <h3>2. Add courses</h3>
+            <p><b>Drag</b> a course from the course list (beside or above the terms, depending on screen size) onto a term. Or <b>click</b> a course (or press Enter on it) to read its description and pick a term from a list; terms it can't go in are greyed out with the reason.</p>
+            <p>To see what fits a particular term, choose it under <b>Show what fits in</b>, or click that term's heading. Courses that can't go there are dimmed, with the reason on the card. Click the heading again, or choose <i>Any term</i>, to clear it.</p>
+            <p>Use the search box and the pool buttons to narrow the list.</p>
+          </section>
+          <section>
+            <h3>3. Move or remove courses</h3>
+            <p>Drag a course from one term to another. To remove it, click its <b>×</b>, drag it back onto the course list, or select it and press Delete.</p>
+            <p>HINF 5101 and your healthcare-systems course are placed for you in the first term each runs. You can move them like any other course.</p>
+            <p><b>+ Add a term</b> extends your plan if you need more time. <b>Remove last empty term</b> trims unused terms at the end.</p>
+          </section>
+          <section>
+            <h3>4. Rules the planner enforces</h3>
+            <p>The planner will not let you make these moves, and tells you why:</p>
+            <ul>
+              <li>Going over 36 credits.</li>
+              <li>Taking a course before its prerequisite. The prerequisite must be completed or planned in an <i>earlier</i> term, not the same one.</li>
+              <li>Placing a course in a term where it isn't offered, or isn't offered in a format you can take. Boston students can take on-ground, hybrid and online sections. Online and Vancouver students can take online sections only.</li>
+              <li>Taking the capstone before completing three semesters.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>5. Warnings (advice only)</h3>
+            <p>Yellow notes in <b>Plan check</b>, below the terms, are advice. Your plan still works, but talk to your advisor:</p>
+            <ul>
+              <li>More than 3 courses in one term is not recommended.</li>
+              <li>Fall and Spring terms should be consecutive. An empty Fall or Spring in the middle of your plan is a semester off, which needs the program director's approval. Summer is optional, so an empty summer is fine.</li>
+              <li>A course marked <i>Unconfirmed</i> has no schedule information for that term yet. Check before you register.</li>
+              <li>HINF 5101 belongs in your first term and HINF 7701 in your last.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>6. Reading a course card</h3>
+            <ul class="legend">
+              <li><span class="swatch p-core"></span> Core <span class="swatch p-business"></span> Business <span class="swatch p-technical"></span> Technical <span class="swatch p-health"></span> Health Informatics <span class="swatch p-elective"></span> General Elective <span class="swatch p-extra"></span> Extra: the coloured edge shows the requirement the course meets.</li>
+              <li><span class="tag p-technical">Counts: Technical</span> the requirement this course is filling in your plan.</li>
+              <li><span class="tag warn">Does not count toward a requirement</span> the course adds credits only, because that requirement is already full.</li>
+              <li><span class="tag">online · on-ground</span> the formats it runs in that term.</li>
+              <li><span class="tag">Technical (max 1)</span> only one DA or INSH course can count as Technical; others count as General Electives.</li>
+              <li><span class="tag">Needs HINF 5101</span> a prerequisite. <span class="tag ok">Planned: Fall 2027</span> already on your plan.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>7. When you're done</h3>
+            <p>When the tracker says <b>“This plan meets the degree requirements”</b>, click <b>Print roadmap</b>. To keep a digital copy, choose <i>Save as PDF</i> in the print dialog. The roadmap lists every term, the requirement each course meets, any notes, and lines for you and your advisor to sign.</p>
+            <p><b>Edit setup</b> changes your program version, start term or completed courses and keeps the rest of your plan. <b>Log out</b> erases everything.</p>
+          </section>
+        </div>
+      </details>
+      <div class="status" id="status"></div>
+      <div class="planner">
+        <aside class="panel library" aria-label="Course library">
+          <div class="filters">
+            <input type="search" id="search" placeholder="Search courses" aria-label="Search courses">
+            <div class="tabs" id="pool-tabs"></div>
+            <label class="target"><span>Show what fits in</span> <select id="target-term"></select></label>
+          </div>
+          <p class="muted small lib-hint">Drag a course onto a term, or click it to choose a term. Pick a term in <b>Show what fits in</b> (or click a term's heading) to dim the courses that can't go there. Drop a planned course back here to remove it.</p>
+          <div id="library"></div>
+        </aside>
+        <div>
+          <div class="board" id="board"></div>
+          <div class="board-actions">
+            <button class="btn" id="add-term" type="button">+ Add a term</button>
+            <button class="btn" id="remove-term" type="button">Remove last empty term</button>
+          </div>
+          <section class="plan-check" aria-live="polite">
+            <h2>Plan check</h2>
+            <p class="muted small">Red items are problems to fix. Yellow items are advice: your plan still works, but discuss them with your advisor.</p>
+            <div class="notes" id="notes"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="course-dialog"><div class="dlg" id="course-dialog-body"></div></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <div id="print-view"></div>
+
+  <noscript>This simulator needs JavaScript.</noscript>
+</body>
+</html>

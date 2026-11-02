@@ -1,0 +1,267 @@
+{
+ "PHTH 5202": {
+  "title": "Introduction to Epidemiology",
+  "credits": "3",
+  "text": "Introduces the principles, concepts, and methods of population-based epidemiologic research. Offers students an opportunity to understand and critically review epidemiologic studies. Lectures and discussions aim to serve as a foundation for training in epidemiology, quantitative methods, and population-based health research. The course is a required introductory course for students in the Master of Public Health program and is appropriate for students who are interested in epidemiologic research. Students not meeting course restrictions may seek permission of instructor."
+ },
+ "PHTH 5210": {
+  "title": "Biostatistics in Public Health",
+  "credits": "3",
+  "text": "Offers public health students an opportunity to obtain the fundamental concepts and methods of biostatistics as applied predominantly to public health problems and the skills to perform basic statistical calculations Emphasizes interpretation and comprehension of concepts. Topics include descriptive statistics, vital statistics, sampling, estimation and significance testing, sample size and power, correlation and regression, spatial and temporal trends, small area analysis, and statistical issues in policy development. Draws examples of statistical methods from the public health practice. Introduces use of computer statistical packages. Requires permission of instructor for students outside designated programs."
+ },
+ "PHTH 5226": {
+  "title": "Management and Leadership in Public Health and Healthcare",
+  "credits": "3",
+  "text": "Focuses on leadership and management challenges facing public health and healthcare organizations, particularly community-based agencies and their role in public health and healthcare delivery systems. Introduces strategic thinking, negotiation, and leadership approaches that must be considered for managing a successful public health or healthcare organization. Selected topics include strategic planning; organizational development and barriers to organizational change; management strategies and principles; approaches to negotiation in public health and healthcare settings; systems thinking; and the key elements for effective organizational leadership."
+ },
+ "PHTH 5232": {
+  "title": "Evaluating Healthcare Quality",
+  "credits": "3",
+  "text": "Focuses on the conceptual and methodological foundations for evaluating the quality of care of healthcare providers\u2014both individual providers and healthcare organizations. Aimed at students pursuing careers in public health, public policy, healthcare management, and the various health professions in the growing field of quality evaluation and improvement. Also designed to give healthcare providers an appreciation for how they may be evaluated. Examines scientific issues in the measurement of quality of care as well as key quality evaluation methods. Also covers the use of risk adjustment and other methodologies for comparing the quality of healthcare providers. Focuses on mechanisms that assess quality, including licensure, accreditation, and board certification."
+ },
+ "PHTH 6210": {
+  "title": "Applied Regression Analysis",
+  "credits": "3",
+  "text": "Builds upon the fundamental concepts and methods of biostatistics with applications to health disciplines. Topics include hypothesis testing, analysis of variance, linear regression, multiple regression, and logistic regression. Examples and readings are drawn from the public health literature. The SAS statistical software package is introduced and used throughout the course. Prerequisite(s): MATH 5010 with a minimum grade of C- or PHTH 5210 with a minimum grade of B- or PHTH 6830 with a minimum grade of C-"
+ },
+ "PHTH 7400": {
+  "title": "Principles of Population Health 1",
+  "credits": "3",
+  "text": "Presents historical background and methodological and critical-thinking tools needed to perform high-quality, interdisciplinary research in population health. Uses a problem-solving and interdisciplinary framework to demonstrate the skills needed to develop research hypotheses, design research strategies, analyze data to test study hypotheses, and communicate findings both orally and in writing. Offers students an opportunity to gain experience in research methodology and application of basic methods for population health research, including epidemiological and biostatistical concepts. Students demonstrate mastery of these skills through problem sets and written proposals that include communication of preliminary data. Prerequisite(s): PHTH 5210 with a minimum grade of C- or PHTH 5210 with a minimum grade of D-"
+ },
+ "PHTH 7440": {
+  "title": "Advanced Methods in Biostatistics",
+  "credits": "3",
+  "text": "Extends general and generalized linear models to applications and structures that create dependent data. Uses a multilevel approach to model-clustered or group data that can arise from data collected at different layers or longitudinally across time. Examines the analyses of data from complex survey designs where stratification, sampling units, and sampling weights need to be incorporated into the analyses. Explores the underlying principles for these approaches and specific statistical approaches for analyses. Uses R and RStudio to analyze various datasets. Prerequisite(s): PHTH 6210 with a minimum grade of C- or PHTH 6830 with a minimum grade of C-"
+ },
+ "DA 5020": {
+  "title": "Collecting, Storing, and Retrieving Data",
+  "credits": "4",
+  "text": "Studies how to build large-scale information repositories of different types of information objects so that they can be selected, retrieved, and transformed for analytics and discovery, including statistical analysis. Analyzes how traditional approaches to data storage can be applied alongside modern approaches that use nonrelational data structures. Through case studies, readings on background theory, and hands-on experimentation, offers students an opportunity to learn how to select, plan, and implement storage, search, and retrieval components of large-scale structured and unstructured information repositories. Emphasizes how to assess and recommend efficient and effective large-scale information storage and retrieval components that provide data scientists with properly structured, accurate, and reliable access to information needed for investigation."
+ },
+ "DA 5030": {
+  "title": "Introduction to Data Mining/Machine Learning",
+  "credits": "4",
+  "text": "Introduces the fundamental techniques for data mining, combining elements from CS 6140 and CS 6220 . Discusses several basic learning algorithms, such as regression and decision trees, along with popular data types, implementation and execution, and analysis of results. Lays the data analytics program foundation of how learning models from data work, both algorithmically and practically. The coding can be done in R, Matlab or Python. Students must demonstrate ability to set up data for learning, training, testing, and evaluating."
+ },
+ "PHIL 5110": {
+  "title": "Responsible AI",
+  "credits": "4",
+  "text": "Covers the design, development, and deployment of artificial intelligence and how it interacts with a wide range of values including fairness, privacy, transparency, autonomy, and well-being. Offers students an opportunity to develop an understanding of the robust legal, regulatory, and ethical landscape of AI applications across domains and sectors to realize the promise of AI while promoting and protecting values, as well as instruction in the tools necessary to responsibly engage with AI."
+ },
+ "HLTH 5800": {
+  "title": "AI Across the Health Sciences",
+  "credits": "4",
+  "text": "Presents foundational information about artificial intelligence and its applications in healthcare, public health, pharmacology, and pharmaceutical sciences. Develops AI literacies for entry-level clinical practice, public health, and health-related careers. Provides an overview of the history of AI, most common types of AI approaches, and state-of-the-art of AI in health-related applications. Distinguishes realities from hype around AI\u2019s capabilities and limitations and reviews ethical and regulatory considerations. Offers students experiential opportunities to build a conceptual AI solution to a real-world problem in the health space. Technical background in AI/computer science not required."
+ },
+ "EMGT 5220": {
+  "title": "Engineering Project Management",
+  "credits": "4",
+  "text": "Examines the theory and practice of managing projects. Explores human, mathematical, entrepreneurial, managerial, and engineering aspects of project management. The systems development life cycle is the framework for the course. Addresses needs analysis, requirements definition, design, and implementation in the context of project management. Introduces mathematical and software tools for planning, monitoring, and controlling projects."
+ },
+ "HINF 1990": {
+  "title": "Elective",
+  "credits": "1-4",
+  "text": "Offers elective credit for courses taken at other academic institutions. May be repeated without limit."
+ },
+ "HINF 2990": {
+  "title": "Elective",
+  "credits": "1-4",
+  "text": "Offers elective credit for courses taken at other academic institutions. May be repeated without limit."
+ },
+ "HINF 2991": {
+  "title": "Research in Health Informatics",
+  "credits": "1-4",
+  "text": "Offers an opportunity to conduct introductory-level research or creative endeavors under faculty supervision. May be repeated once."
+ },
+ "HINF 3990": {
+  "title": "Elective",
+  "credits": "1-4",
+  "text": "Offers elective credit for courses taken at other academic institutions. May be repeated without limit."
+ },
+ "HINF 4990": {
+  "title": "Elective",
+  "credits": "1-4",
+  "text": "Offers elective credit for courses taken at other academic institutions. May be repeated without limit."
+ },
+ "HINF 5101": {
+  "title": "Introduction to Health Informatics and Health Information Systems",
+  "credits": "3",
+  "text": "Introduces the history and current status of information systems in healthcare: information architectures, administrative and clinical applications, evidence-based medicine, information retrieval, decision support systems, security and confidentiality, bioinformatics, information system cycles, the electronic health record, key health information systems and standards, and medical devices. Requires enrollment in Graduate Health Informatics Program."
+ },
+ "HINF 5102": {
+  "title": "Data Management in Healthcare",
+  "credits": "3",
+  "text": "Explores issues of data representation in healthcare systems, including patient and provider identification, audit trails, authentication, and reconciliation. Discusses underlying design of repositories for electronic health records (EHRs) and computerized provider order entry (CPOE) systems. Includes an overview of privacy issues, legislation, regulations, and accreditation standards unique to healthcare."
+ },
+ "HINF 5105": {
+  "title": "The American Healthcare System",
+  "credits": "3",
+  "text": "Covers the organization, financing, and outcomes of the U.S. healthcare system. Studies opportunities and challenges to improve the cost and quality of healthcare and expand adequate coverage to all. Non\u2013health informatics students may be able to take the course with permission of the program director."
+ },
+ "HINF 5106": {
+  "title": "The Canadian Healthcare System",
+  "credits": "3",
+  "text": "Presents an overview of the Canadian healthcare system. Emphasizes the current system\u2019s strengths and limitations. Uses historical context to strengthen analysis of present-day concerns. Focuses on issues of access, cost, and quality of care."
+ },
+ "HINF 5110": {
+  "title": "Global Health Information Management",
+  "credits": "3",
+  "text": "Studies the challenges of managing health information systems in the United States, Canada, India, China, the United Kingdom, Saudi Arabia, Singapore, Taiwan, Ghana, and Malawi. Differences in healthcare systems and national regulations make the process slightly different in each country. By exploring environments with varying degrees of regulation, students have an opportunity to think critically about the impact that a nation\u2019s environment has on health information management. Discusses case studies to encourage students to think about health informatics from a managerial perspective across private companies, government, and nongovernment organizations."
+ },
+ "HINF 5200": {
+  "title": "Theoretical Foundations in Personal Health Informatics",
+  "credits": "4",
+  "text": "Offers an introduction to and foundation for personal health informatics by reviewing major theories and models of health behavior change and health education at individual, interpersonal, and community levels in a wide variety of settings and populations. Health behavior change is arguably our greatest hope for reducing the burden of preventable physical and mental disease and death around the world. A thorough understanding of health behavior change theories is thus essential to developing and translating personal health interface technologies into practice and policy that can result in more powerful interventions and more robust theories. Emphasizes cultural and health disparities, global applications, advances in health communications, and the use of electronic media (e-health) and mobile media (m-health). Open to students with senior standing with permission of instructor."
+ },
+ "HINF 5300": {
+  "title": "Personal Health Interface Design and Development",
+  "credits": "4",
+  "text": "Explores the design of innovative personal health human-computer interface technologies. Examples include assistive technologies that aid persons with disabilities, consumer wellness promotion applications, patient education and counseling systems, interfaces for reviewing personal health records, and elder care and social network systems that monitor health and support independent living. Offers students an opportunity to work in teams to build a prototype personal health interface system to solve a real problem. Topics include needs assessment and participatory research, iterative user interface design methods for health interface development, computational sensing of health states and behavior, software architectures for iteratively testing prototype personal health interface technologies, human-computer interaction issues related to personal health technology, and technology transfer requirements to support future validation studies of technology."
+ },
+ "HINF 5301": {
+  "title": "Evaluating Health Technologies",
+  "credits": "4",
+  "text": "Explores the deployment and evaluation of innovative health technologies. In this project-based course, students work in teams to deploy and evaluate a health technology. Offers students an opportunity to develop a research plan to measure the effectiveness, usability, and/or feasibility of the technology; recruit study participants; deploy the technology; and analyze the data collected. Also offers students an opportunity to learn about each of these steps and work toward producing a publishable-quality research paper on the technology and results of the efficacy study, as well as to prepare a grant application that extends the technology and research methodology. Additional topics include technology transfer and implications on health policy. Attribute(s): NUpath Capstone Experience"
+ },
+ "HINF 5407": {
+  "title": "Business Application of Decision Support in Healthcare",
+  "credits": "3",
+  "text": "Explores the business of healthcare and the practical application of decision support needed to improve access to care, improve health outcomes, and reduce the cost of care. Discusses the impact of consumerism, risk-based purchasing (including ACOs), the migration from facility to home and community-based care (including medical home models), the implied broadening of the healthcare supply chain, and emerging technology trends such as blockchain."
+ },
+ "HINF 5500": {
+  "title": "Artificial Intelligence and Health Informatics",
+  "credits": "3",
+  "text": "Emphasizes practical strategies for building and maintaining trustworthy AI systems that promote equitable and high-quality healthcare outcomes, including how healthcare organizations can effectively establish and implement robust AI governance structures. Covers principles of fairness, accountability, and transparency; examines critical issues such as algorithmic bias, data privacy, and patient autonomy; and analyzes current and emerging regulatory frameworks."
+ },
+ "HINF 5976": {
+  "title": "Directed Study",
+  "credits": "3",
+  "text": "Offers students an opportunity to examine standard health informatics material in fresh ways or new health informatics material that is not covered in formal courses. May be repeated up to two times."
+ },
+ "HINF 6201": {
+  "title": "Organizational Behavior, Work Flow Design, and Change Management",
+  "credits": "3",
+  "text": "Reviews the concepts, issues, and practices of organizational behavior at the individual, group, and organizational levels. Offers an opportunity to learn how to gather information from users and understand the users\u2019 point of view and problems. Examines processes and work flow in healthcare environments. Seeks to explain organizational structures and analyze business processes and how they are translated into specifications to build a RFP for vendors. Also examines fundamentals of organizational behavior and change management."
+ },
+ "HINF 6202": {
+  "title": "Business of Healthcare Informatics",
+  "credits": "3",
+  "text": "Focuses on the business practices relating to health information technology. Includes departmental design and management, capital and operating budgets, the budget planning process, and infrastructure design and strategic planning. Other topics include evaluation of vendors, vendor selection, clinical administration systems, and the design and management of integrated delivery networks."
+ },
+ "HINF 6205": {
+  "title": "Creation and Application of Medical Knowledge",
+  "credits": "3",
+  "text": "Explores the relationship between clinical data and clinical knowledge and how both are developed and deployed in organizations to support improvements in patient care and research. Topics covered include what medical data is available and how it should be accessed, analyzed, and organized to support evidence-based medicine and research. Analyzes current and future approaches to clinical decision support and expert system development and how they can be deployed via new or existing knowledge-management infrastructures."
+ },
+ "HINF 6215": {
+  "title": "Project Management",
+  "credits": "3",
+  "text": "Introduces students to managing healthcare informatics projects, including the tools and techniques used to manage small, medium, and large software and systems projects. Topics include project planning, project management tools, estimating, budgeting, human resource management, and the like. All phases of a project are discussed, and students are required to develop a project plan for a health informatics project as part of the course."
+ },
+ "HINF 6220": {
+  "title": "Database Design, Access, Modeling, and Security",
+  "credits": "3",
+  "text": "Designed to provide an introduction to the theory and application of database management systems. Topics covered include the relational model, basic and intermediate query formulation using structured query language, database design using the entity relational model, and database normalization and optimization. In addition to these traditional topics, this course covers a sample of emerging topics relevant to the healthcare professional, including personal health information, privacy and security considerations, XML as a data model, and clinical data warehousing and mining."
+ },
+ "HINF 6240": {
+  "title": "Improving the Patient Experience through Informatics",
+  "credits": "3",
+  "text": "Explores the current and future dynamics influencing care for patients. The patient experience is a key differentiator in delivery of healthcare. Technology makes a difference for the patient in both the delivery of advanced care applications and innovation. Discusses and explores technology and workflow enhancements that could work to improve the patient experience from a cost, quality, and care perspective. Examines best practices and organizations and evaluates how they are using informatics to deliver a better patient experience. Analyzes change management and why change is difficult within healthcare and explores case studies on how to make change happen and the role that change plays in connection with technology. People, process, and technology all need to be present to offer an ideal experience."
+ },
+ "HINF 6335": {
+  "title": "Management Issues in Healthcare Information Technology",
+  "credits": "3",
+  "text": "Uses case studies to identify typical issues confronting chief information officers in healthcare organizations, including human resource management, strategic planning, project management, vendor contract negotiations, budgeting, service levels, etc. Requires prior completion of HINF 5101 ."
+ },
+ "HINF 6345": {
+  "title": "Design for Usability in Healthcare",
+  "credits": "3",
+  "text": "Introduces the general principles of usability and user interface design as they relate to healthcare technology. Through a series of hands-on projects, offers students an opportunity to gain skill in user-centered/UX research and design methodologies such as interviewing, persona creation, task analysis, usability testing, prototyping, and iterative design. Class materials, exercises, and discussions cover usability and design for EHRs/ EMRs, connected health, smart home products, and interoperability. While there are no prerequisites for this course, the material is directed toward advanced students who need to understand how to design usable interactive products and software within healthcare so they can either do the work themselves or manage this function within a project."
+ },
+ "HINF 6355": {
+  "title": "Interoperability Key Standards in Health Informatics",
+  "credits": "3",
+  "text": "Reviews the different healthcare informatics standards for storing and exchanging data in healthcare technology systems. Covers where and how they are used, where and why they are not used, and an overview of some of the types of products available to facilitate their use. Seeks to demystify the details behind the standards. Offers students an opportunity to work through examples in small groups in class and discuss issues involving the standards\u2019 adoption and use. Non\u2013health informatics students may be able to take the course with permission of the program director. Prerequisite(s): HINF 5101 with a minimum grade of D- or HINF 5101 with a minimum grade of C- (Graduate)"
+ },
+ "HINF 6400": {
+  "title": "Introduction to Health Data Analytics",
+  "credits": "3",
+  "text": "Introduces the field of health data analytics. Topics include understanding stakeholder needs; the variety of types of health data; software tools; as well as case studies from pharma, public health, electronic health records, claims data, and home-monitoring data. Emphasizes the importance of understanding the complexity and potential biases in how health data (direct or indirect) is collected and represented. Presents all data-analytic discussions within a context of health data and stakeholder information needs. Offers students an opportunity to practice presenting the results of analyses. Requires a basic knowledge of statistics."
+ },
+ "HINF 6404": {
+  "title": "Patient Engagement Informatics and Analytics",
+  "credits": "3",
+  "text": "Studies patient engagement and health informatics systems and analyses of data collected from these systems. Patient engagement is the ability and willingness of patients to manage their own health and care combined with interventions to increase patient involvement in their own health and care, as well as other positive health behaviors. In these interventions, health informatics systems and analyses of data are used. Offers students an opportunity to engage in data analytic exercises to investigate the underlying design and implementation of health informatics systems used in patient engagement initiatives. Presents an overview of the current state, new technologies, and other areas (health reform, legal, privacy, quantified self) influencing the future direction of patient engagement."
+ },
+ "HINF 6405": {
+  "title": "Quantifying the Value of Informatics",
+  "credits": "3",
+  "text": "Examines the various ways in which health informatics delivers value to organizations. Organizations invest in informatics because they believe that doing so will enable them to meet their objectives. The course offers students a series of tools to use to quantify value, which can help them to articulate and assess the value of potential investments in informatics. Examines case studies to offer students an opportunity to practice articulating the value of informatics in real settings."
+ },
+ "HINF 6962": {
+  "title": "Elective",
+  "credits": "1-4",
+  "text": "Offers elective credit for courses taken at other academic institutions. May be repeated without limit."
+ },
+ "HINF 7701": {
+  "title": "Health Informatics Capstone Project",
+  "credits": "3",
+  "text": "Offers students an opportunity to integrate knowledge gained in the classroom with real-world problems. Consists of practical work and research in a major area of health informatics. Potential areas of work include design or analysis of health informatics systems, programs, or applications; program planning; and policy development. Encourages community-based participatory projects. To the extent possible, capstone projects have as a goal an active contribution to the health informatics field. Students initiate and design capstone projects in consultation with working professionals. Faculty members provide guidance and mentoring. Requires prior completion of at least three semesters of graduate study in health informatics."
+ },
+ "HINF 7976": {
+  "title": "Directed Study",
+  "credits": "1-4",
+  "text": "Offers independent work under the direction of members of the department on a chosen topic. Course content depends on instructor. May be repeated without limit."
+ },
+ "HINF 7990": {
+  "title": "Thesis",
+  "credits": "3",
+  "text": "Offers supervision and oversight of master's thesis in a selected topic under the direction of the faculty in fulfillment of the requirements for the degree. Requires students to submit a written thesis. May be repeated twice. Prerequisite(s): ( PHTH 5210 with a minimum grade of B- or PHTH 5210 with a minimum grade of B- or PHTH 5210 with a minimum grade of B- ); ( CS 6350 with a minimum grade of B- or HINF 5200 with a minimum grade of B- )"
+ },
+ "HINF 8982": {
+  "title": "Readings",
+  "credits": "1-8",
+  "text": "Offers selected readings under the supervision of a faculty member. Personal health informatics PhD students only. ."
+ },
+ "HINF 8984": {
+  "title": "Research",
+  "credits": "1-4",
+  "text": "Offers an opportunity to conduct research under faculty supervision. May be repeated up to four times."
+ },
+ "HINF 8986": {
+  "title": "Research",
+  "credits": "0",
+  "text": "Offers an opportunity to conduct full-time research under faculty supervision. May be repeated up to four times."
+ },
+ "HINF 9000": {
+  "title": "PhD Candidacy Achieved",
+  "credits": "0",
+  "text": "Indicates successful completion of program requirements for PhD candidacy."
+ },
+ "HINF 9990": {
+  "title": "Dissertation Term 1",
+  "credits": "0",
+  "text": "Offers selected work with the agreement of a dissertation supervisor. Prerequisite(s): HINF 9000 with a minimum grade of S"
+ },
+ "HINF 9991": {
+  "title": "Dissertation Term 2",
+  "credits": "0",
+  "text": "Offers dissertation supervision by members of the department. Prerequisite(s): HINF 9990 with a minimum grade of S"
+ },
+ "HINF 9996": {
+  "title": "Dissertation Continuation",
+  "credits": "0",
+  "text": "Continues work with the agreement of a dissertation supervisor. Prerequisite(s): HINF 9991 with a minimum grade of S or Dissertation Check with a score of REQ"
+ },
+ "INSH 5301": {
+  "title": "Introduction to Computational Statistics",
+  "credits": "4",
+  "text": "Introduces the fundamental techniques of quantitative data analysis, ranging from foundational skills\u2014such as data description and visualization, probability, and statistics\u2014to the workhorse of data analysis and regression, to more advanced topics\u2014such as machine learning and networks. Emphasizes real-world data and applications using the R statistical computing language. Analyzing and understanding complex data has become an essential component of numerous fields: business and economics, health and medicine, marketing, public policy, computer science, engineering, and many more. Offers students an opportunity to finish the course ready to apply a wide variety of analytic methods to data problems, present their results to nonexperts, and progress to more advanced course work delving into the many topics introduced here."
+ },
+ "INSH 5302": {
+  "title": "Information Design and Visual Analytics",
+  "credits": "4",
+  "text": "Introduces the systematic use of visualization techniques for supporting the discovery of new information as well as the effective presentation of known facts. Based on principles from art, graphic design, perceptual psychology, and rhetoric, offers students an opportunity to learn how to successfully choose appropriate visual languages for representing various kinds of data to support insights relevant to the user\u2019s goals. Covers visual data mining techniques and algorithms for supporting the knowledge-discovery process; principles of visual perception and color theory for revealing patterns in data, semiotics, and the epistemology of visual representation; narrative strategies for communicating and presenting information and evidence; and the critical evaluation and critique of data visualizations. Requires proficiency in R."
+ }
+}

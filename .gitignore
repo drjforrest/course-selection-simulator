@@ -1,0 +1,6 @@
+node_modules/
+data/overrides.json
+data/*.tmp
+.env
+dev-data/
+scripts/schedule.xlsx
