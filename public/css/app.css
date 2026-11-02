@@ -277,3 +277,12 @@ dialog .row { display: flex; gap: .5rem; justify-content: flex-end; flex-wrap: w
 .plan-check h2 { margin-bottom: .2rem; }
 .plan-check > p { margin: 0 0 .4rem; }
 .note.ok { background: var(--ok-bg); color: var(--ok); }
+.sched-table td.sched-cell { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; white-space: nowrap; }
+.sched-cell.on { background: var(--ok-bg); color: var(--ok); font-weight: 600; }
+.sched-cell.off { color: var(--ink-2); }
+.sched-cell.unknown { background: var(--warn-bg); color: var(--warn); }
+.sched-cell.exception { outline: 2px solid var(--accent); outline-offset: -3px; }
+.sched-table th.c { white-space: nowrap; }
+#sched-dialog { width: min(560px, calc(100vw - 2rem)); }
+#sched-dialog .field select { max-width: 220px; }
+.toolbar h2 { margin: 0; }

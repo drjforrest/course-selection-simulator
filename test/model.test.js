@@ -22,15 +22,29 @@ test('program model sets intake courses unless faculty override', () => {
   assert.equal(M.offering(data, 'HINF 5101', '2027-SP').source, 'program');
   assert.ok(M.offering(data, 'HINF 5101', '2027-SP').formats.includes('online'));
   assert.deepEqual(M.offering(data, 'HINF 5105', '2027-FA').formats, []);
-  const d = { base, overrides: { terms: { '2027-FA': { 'HINF 5105': ['on-ground'] } }, courses: {} } };
+  const d = { base, overrides: { terms: {}, patterns: { 'HINF 5105': { from: '2027-FA', seasons: { SP: ['online'], FA: ['on-ground'] } } }, courses: {} } };
   assert.deepEqual(M.offering(d, 'HINF 5105', '2028-FA').formats, ['on-ground']);
 });
 
-test('faculty settings override and carry forward', () => {
-  const d = { base, overrides: { terms: { '2027-FA': { 'HINF 5106': ['online'] } }, courses: {} } };
-  assert.equal(M.offering(d, 'HINF 5106', '2027-FA').source, 'faculty');
-  assert.equal(M.offering(d, 'HINF 5106', '2028-FA').from, '2027-FA');
-  assert.deepEqual(M.offering(d, 'HINF 5106', '2026-FA').formats, []);
+test('term exceptions apply to one term only', () => {
+  const d = { base, overrides: { terms: { '2027-FA': { 'HINF 5106': ['online'] } }, patterns: {}, courses: {} } };
+  assert.equal(M.offering(d, 'HINF 5106', '2027-FA').source, 'term');
+  assert.deepEqual(M.offering(d, 'HINF 5106', '2028-FA').formats, []);
+});
+
+test('faculty schedule moves a course to new seasons from a starting term', () => {
+  const d = { base, overrides: { terms: {}, patterns: { 'HINF 6355': { from: '2027-FA', seasons: { FA: ['online'] } } }, courses: {} } };
+  assert.deepEqual(M.offering(d, 'HINF 6355', '2027-SP').formats, ['hybrid', 'on-ground']); // before the start: spreadsheet
+  assert.deepEqual(M.offering(d, 'HINF 6355', '2028-SP').formats, []);
+  assert.deepEqual(M.offering(d, 'HINF 6355', '2027-FA').formats, ['online']);
+  assert.equal(M.offering(d, 'HINF 6355', '2029-FA').source, 'pattern');
+  const ex = { ...d, overrides: { ...d.overrides, terms: { '2028-FA': { 'HINF 6355': ['on-ground'] } } } };
+  assert.deepEqual(M.offering(ex, 'HINF 6355', '2028-FA').formats, ['on-ground']); // exception beats schedule
+});
+
+test('terms compare chronologically', () => {
+  assert.ok(M.compareTerms('2027-SU', '2027-FA') < 0);
+  assert.ok(M.compareTerms('2027-SP', '2026-FA') > 0);
 });
 
 test('prerequisite must be in an earlier term', () => {

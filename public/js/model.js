@@ -26,6 +26,12 @@ const SEASON_NAMES = { SP: 'Spring', SU: 'Summer', FA: 'Fall' };
 const FIRST_HISTORY_YEAR = 2025;
 
 export const termLabel = id => `${SEASON_NAMES[id.slice(5)]} ${id.slice(0, 4)}`;
+export const seasonName = season => SEASON_NAMES[season];
+export { SEASONS };
+
+// Chronological comparison (term ids don't sort correctly as strings: FA < SP < SU).
+const termOrder = id => Number(id.slice(0, 4)) * 3 + SEASONS.indexOf(id.slice(5));
+export const compareTerms = (a, b) => termOrder(a) - termOrder(b);
 
 export function nextTerm(id) {
   const y = Number(id.slice(0, 4));
@@ -89,30 +95,37 @@ const PROGRAM_MODEL = {
   'HINF 5106': ['SP'],
 };
 
-// Offering of a course in a term. Faculty settings win (the term's own, else the most recent same-season one);
-// then the program model; then the schedule for the most recent same-season term it covers.
+// Offering of a course in a term, from the first of:
+//   1. a faculty exception for that exact term (one term only);
+//   2. the course's faculty schedule (which seasons it runs, from a starting term onward);
+//   3. the program model (intake courses);
+//   4. the schedule spreadsheet for the same season, most recent year first.
 // Returns { formats, source, from } or null when there is no data at all.
 export function offering(data, code, term) {
+  const own = data.overrides.terms[term]?.[code];
+  if (own) return { formats: own, source: 'term', from: term };
+  return regularOffering(data, code, term);
+}
+
+// The offering without one-term exceptions: what the course normally does in that term.
+export function regularOffering(data, code, term) {
   const season = term.slice(5);
-  const year = Number(term.slice(0, 4));
-  for (let y = year; y >= FIRST_HISTORY_YEAR; y--) {
-    const set = data.overrides.terms[`${y}-${season}`]?.[code];
-    if (set) return { formats: set, source: 'faculty', from: `${y}-${season}` };
-  }
+  const pattern = data.overrides.patterns?.[code];
+  if (pattern && compareTerms(term, pattern.from) >= 0) return { formats: pattern.seasons[season] || [], source: 'pattern', from: pattern.from };
   if (PROGRAM_MODEL[code]) return { formats: PROGRAM_MODEL[code].includes(season) ? ALL_FORMATS : [], source: 'program', from: term };
-  for (let y = year; y >= FIRST_HISTORY_YEAR; y--) {
+  for (let y = Number(term.slice(0, 4)); y >= FIRST_HISTORY_YEAR; y--) {
     const t = `${y}-${season}`;
     if (covers(data, t, code)) return { formats: data.base.history[t]?.[code] || [], source: 'schedule', from: t };
   }
   return null;
 }
 
-const SOURCE_NOTES = { faculty: 'Set by faculty', program: 'Program default', schedule: 'From course schedule' };
-
 export function offeringNote(off, term) {
   if (!off) return 'No schedule data';
-  const where = off.from === term ? '' : ` (carried from ${termLabel(off.from)})`;
-  return SOURCE_NOTES[off.source] + where;
+  if (off.source === 'term') return 'Exception for this term only';
+  if (off.source === 'pattern') return `Faculty schedule (from ${termLabel(off.from)})`;
+  if (off.source === 'program') return 'Program default';
+  return off.from === term ? 'From course schedule' : `From course schedule (as in ${termLabel(off.from)})`;
 }
 
 // ---------- plan evaluation ----------

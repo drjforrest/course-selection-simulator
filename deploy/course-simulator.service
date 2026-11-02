@@ -1,0 +1,22 @@
+# Template: deploy.sh setup fills in __USER__, __PATH__ and __NODE__ and installs it as
+# /etc/systemd/system/course-simulator.service.
+[Unit]
+Description=MSHI Course Selection Simulator
+After=network.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__PATH__
+EnvironmentFile=__PATH__/.env
+ExecStart=__NODE__ server.js
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=__PATH__/data
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

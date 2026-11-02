@@ -3,7 +3,7 @@ import * as M from './model.js';
 let data = null;
 let term = null;
 let edits = {}; // code -> formats[] for the selected term, not yet saved
-let tab = 'terms';
+let tab = 'schedule';
 
 const $ = sel => document.querySelector(sel);
 const FORMATS = ['on-ground', 'hybrid', 'online'];
@@ -82,6 +82,7 @@ async function enterAdmin() {
   $('#term-reset').addEventListener('click', resetTerm);
   window.addEventListener('beforeunload', e => { if (dirty()) e.preventDefault(); });
   renderTabs();
+  renderSchedule();
   renderTerm();
   renderCourses();
   renderUpdated();
@@ -89,9 +90,103 @@ async function enterAdmin() {
 
 const dirty = () => Object.keys(edits).length > 0;
 
+const TABS = [['schedule', 'When courses run'], ['terms', 'One-term exceptions'], ['courses', 'Credits & prerequisites']];
+
 function renderTabs() {
-  $('#fac-tabs').replaceChildren(...[['terms', 'Term offerings'], ['courses', 'Credits & prerequisites']].map(([k, label]) =>
-    h('button', { class: 'tab', type: 'button', 'aria-pressed': String(tab === k), onclick: () => { tab = k; renderTabs(); $('#tab-terms').hidden = k !== 'terms'; $('#tab-courses').hidden = k !== 'courses'; } }, label)));
+  $('#fac-tabs').replaceChildren(...TABS.map(([k, label]) =>
+    h('button', { class: 'tab', type: 'button', 'aria-pressed': String(tab === k), onclick: () => { tab = k; renderTabs(); } }, label)));
+  for (const [k] of TABS) $(`#tab-${k}`).hidden = k !== tab;
+}
+
+// ---------- when courses run (course schedules) ----------
+const LETTER = { 'on-ground': 'G', hybrid: 'H', online: 'O' };
+const scheduleTerms = () => M.termRange(M.upcomingTerm(), 9);
+
+function cell(code, t) {
+  const off = M.offering(data, code, t);
+  const text = !off ? '?' : off.formats.length ? off.formats.map(f => LETTER[f]).join(' ') : '—';
+  const cls = ['c', 'sched-cell', !off ? 'unknown' : off.formats.length ? 'on' : 'off', off?.source === 'term' ? 'exception' : ''].join(' ');
+  const title = `${M.termLabel(t)}: ${off ? (off.formats.length ? off.formats.join(', ') : 'not offered') : 'no data'} (${M.offeringNote(off, t)})`;
+  return h('td', { class: cls, title }, text);
+}
+
+function scheduleSummary(code) {
+  const p = data.overrides.patterns?.[code];
+  if (!p) {
+    const src = M.regularOffering(data, code, M.upcomingTerm());
+    return src?.source === 'program' ? 'Program default' : 'Course schedule spreadsheet';
+  }
+  const seasons = M.SEASONS.filter(se => p.seasons[se]).map(M.seasonName);
+  return `Faculty: ${seasons.length ? seasons.join(', ') : 'not offered'} from ${M.termLabel(p.from)}`;
+}
+
+function renderSchedule() {
+  const terms = scheduleTerms();
+  $('#sched-head').replaceChildren(h('tr', {},
+    h('th', {}, 'Course'), h('th', {}, 'Title'),
+    ...terms.map(t => h('th', { class: 'c' }, M.termLabel(t).replace(' ', '\u00a0'))),
+    h('th', {}, 'Schedule source'), h('th', {})));
+  $('#sched-rows').replaceChildren(...M.allCodes(data).map(code => h('tr', {},
+    h('td', {}, h('b', {}, code)),
+    h('td', {}, M.course(data, code).title),
+    ...terms.map(t => cell(code, t)),
+    h('td', { class: 'small muted' }, scheduleSummary(code)),
+    h('td', {}, h('button', { class: 'btn', type: 'button', onclick: () => openSchedule(code) }, 'Change schedule')))));
+}
+
+function openSchedule(code) {
+  const c = M.course(data, code);
+  const existing = data.overrides.patterns?.[code];
+  const start = M.upcomingTerm();
+  // Pre-fill with what the course does now: next year's term of each season.
+  const current = Object.fromEntries(M.SEASONS.map(se => {
+    const t = M.termRange(start, 3).find(x => x.endsWith(se));
+    return [se, existing ? existing.seasons[se] || [] : M.regularOffering(data, code, t)?.formats || []];
+  }));
+  const from = h('select', { id: 'sched-from' }, ...M.termRange(M.currentTerm(), 10).map(t =>
+    h('option', { value: t, selected: t === (existing?.from || start) }, M.termLabel(t))));
+  const rows = M.SEASONS.map(se => h('tr', {},
+    h('th', { scope: 'row' }, M.seasonName(se)),
+    ...FORMATS.map(f => h('td', { class: 'c' }, h('input', { type: 'checkbox', name: `${se}:${f}`, checked: current[se].includes(f), 'aria-label': `${M.seasonName(se)} ${f}` })))));
+  const close = () => $('#sched-dialog').close();
+  const save = async () => {
+    const seasons = Object.fromEntries(M.SEASONS.map(se => [se, FORMATS.filter(f => $('#sched-form').elements[`${se}:${f}`].checked)]));
+    try {
+      const r = await api('PUT', `/api/patterns/${encodeURIComponent(code)}`, { from: from.value, seasons });
+      data.overrides = r.overrides;
+      close();
+      refreshAll();
+      toast(`Saved schedule for ${code}.`);
+    } catch (err) { toast(err.message); }
+  };
+  const remove = async () => {
+    try {
+      const r = await api('DELETE', `/api/patterns/${encodeURIComponent(code)}`);
+      data.overrides = r.overrides;
+      close();
+      refreshAll();
+      toast(`${code} is back on its original schedule.`);
+    } catch (err) { toast(err.message); }
+  };
+  $('#sched-form').replaceChildren(
+    h('h2', {}, `${code} · ${c.title}`),
+    h('p', { class: 'muted small' }, 'Tick the formats the course runs in each season. Leave a season blank if it doesn’t run then. The schedule repeats every year from the starting term. Terms before it, and one-term exceptions, are unchanged.'),
+    h('table', { class: 'fac-table' },
+      h('thead', {}, h('tr', {}, h('th', {}, 'Season'), ...FORMATS.map(f => h('th', { class: 'c' }, f)))),
+      h('tbody', {}, ...rows)),
+    h('label', { class: 'field' }, h('span', {}, h('b', {}, 'Starting')), from,
+      h('span', { class: 'muted small' }, 'The first term this schedule applies to.')),
+    h('div', { class: 'row' },
+      existing ? h('button', { class: 'btn', type: 'button', onclick: remove }, 'Use original schedule') : null,
+      h('button', { class: 'btn', type: 'button', onclick: close }, 'Cancel'),
+      h('button', { class: 'btn primary', type: 'button', onclick: save }, 'Save schedule')));
+  $('#sched-dialog').showModal();
+}
+
+function refreshAll() {
+  renderSchedule();
+  renderTerm();
+  renderUpdated();
 }
 
 function renderUpdated() {
@@ -136,8 +231,7 @@ async function saveTerm() {
     const r = await api('PUT', `/api/terms/${term}`, { offerings });
     data.overrides = r.overrides;
     edits = {};
-    renderTerm();
-    renderUpdated();
+    refreshAll();
     toast(`Saved ${M.termLabel(term)}.`);
   } catch (err) { toast(err.message); }
 }
@@ -148,8 +242,7 @@ async function resetRow(code) {
   try {
     const r = await api('PUT', `/api/terms/${term}`, { offerings });
     data.overrides = r.overrides;
-    renderTerm();
-    renderUpdated();
+    refreshAll();
   } catch (err) { toast(err.message); }
 }
 
@@ -159,8 +252,7 @@ async function resetTerm() {
     const r = await api('DELETE', `/api/terms/${term}`);
     data.overrides = r.overrides;
     edits = {};
-    renderTerm();
-    renderUpdated();
+    refreshAll();
   } catch (err) { toast(err.message); }
 }
 

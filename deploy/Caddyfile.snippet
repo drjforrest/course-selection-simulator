@@ -1,0 +1,8 @@
+
+# MSHI Course Selection Simulator (added by deploy.sh setup)
+__DOMAIN__ {
+	encode gzip
+	reverse_proxy 127.0.0.1:__PORT__
+	# Enable after a few days of clean operation:
+	# header Strict-Transport-Security "max-age=31536000"
+}

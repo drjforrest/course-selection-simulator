@@ -30,9 +30,9 @@ let overrides = loadOverrides();
 function loadOverrides() {
   try {
     const o = JSON.parse(fs.readFileSync(OVERRIDES_FILE, 'utf8'));
-    return { terms: o.terms || {}, courses: o.courses || {}, updatedAt: o.updatedAt || null };
+    return { terms: o.terms || {}, patterns: o.patterns || {}, courses: o.courses || {}, updatedAt: o.updatedAt || null };
   } catch {
-    return { terms: {}, courses: {}, updatedAt: null };
+    return { terms: {}, patterns: {}, courses: {}, updatedAt: null };
   }
 }
 
@@ -96,6 +96,17 @@ function validTermOfferings(body) {
     out[code] = [...new Set(formats)].sort();
   }
   return out;
+}
+
+// { from: '2027-FA', seasons: { SP: [formats], FA: [formats] } } — seasons left out are not offered.
+function validPattern(body) {
+  if (!body || !TERM_RE.test(body.from) || typeof body.seasons !== 'object' || Array.isArray(body.seasons)) return null;
+  const seasons = {};
+  for (const [season, formats] of Object.entries(body.seasons)) {
+    if (!['SP', 'SU', 'FA'].includes(season) || !Array.isArray(formats) || !formats.every(f => FORMATS.has(f))) return null;
+    if (formats.length) seasons[season] = [...new Set(formats)].sort();
+  }
+  return { from: body.from, seasons };
 }
 
 function validCourseEdit(body) {
@@ -209,6 +220,25 @@ async function handleApi(req, res, pathname) {
       if (!offerings) return send(res, 400, { error: 'Invalid offerings.' });
       if (Object.keys(offerings).length) overrides.terms[term] = offerings;
       else delete overrides.terms[term];
+      saveOverrides();
+      return send(res, 200, { overrides });
+    }
+  }
+
+  if ((m = pathname.match(/^\/api\/patterns\/([A-Z]{2,4}%20\d{4}|[A-Z]{2,4} \d{4})$/))) {
+    const code = decodeURIComponent(m[1]);
+    if (!(code in base.courses)) return send(res, 404, { error: 'Unknown course.' });
+    if (method === 'DELETE') {
+      delete overrides.patterns[code];
+      saveOverrides();
+      return send(res, 200, { overrides });
+    }
+    if (method === 'PUT') {
+      let body;
+      try { body = await readJson(req); } catch { return send(res, 400, { error: 'Bad request' }); }
+      const pattern = validPattern(body);
+      if (!pattern) return send(res, 400, { error: 'Invalid schedule.' });
+      overrides.patterns[code] = pattern;
       saveOverrides();
       return send(res, 200, { overrides });
     }

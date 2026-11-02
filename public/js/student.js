@@ -87,7 +87,7 @@ function renderStartTerms() {
   const now = M.currentTerm();
   const options = M.termRange(now, 8).filter(t => !M.isSummer(t));
   const previous = sel.value;
-  const preferred = options.includes(previous) ? previous : options.find(t => t >= M.upcomingTerm()) || options[0];
+  const preferred = options.includes(previous) ? previous : options.find(t => M.compareTerms(t, M.upcomingTerm()) >= 0) || options[0];
   sel.replaceChildren(...options.map(t =>
     h('option', { value: t, selected: t === preferred }, M.termLabel(t) + (t === now ? ' (current term)' : ''))));
   $('#start-hint').textContent = 'Plans start in Spring or Fall. HINF 5101 and HINF 5105/5106, if not yet completed, are placed for you in the first term each runs; you can move them.';

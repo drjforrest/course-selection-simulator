@@ -46,20 +46,25 @@
             <h3>Where defaults come from</h3>
             <p>You don't have to fill in every term. For each course and term the simulator uses the first of these that exists:</p>
             <ol>
-              <li><b>Your setting for that term.</b> If there is none, your most recent setting for the same season (a Spring 2027 setting carries forward to Spring 2028, 2029, and so on).</li>
+              <li><b>A one-term exception</b> for that exact term (the <i>One-term exceptions</i> tab).</li>
+              <li><b>The course's schedule</b> set with <i>Change schedule</i> (the <i>When courses run</i> tab), from its starting term onward.</li>
               <li><b>The program model</b> for the intake courses: HINF 5101 runs every Spring and Fall, and HINF 5105 and HINF 5106 every Spring, in all formats.</li>
               <li><b>The course schedule spreadsheet</b> (Spring 2025 to Fall 2026) for the same season, most recent year first.</li>
             </ol>
             <p>The <b>Source</b> column shows which one a row is using. Courses with no data at all are shown to students as <i>Unconfirmed</i> and can still be placed, with a warning.</p>
           </section>
           <section>
-            <h3>Editing a term</h3>
+            <h3>Changing when a course runs</h3>
+            <p>In <b>When courses run</b>, click <b>Change schedule</b> on the course's row. For Spring, Summer and Fall, tick the formats it runs in; leave a season blank if it doesn't run then. Choose <b>Starting</b>, the first term the change applies to, and save. The change repeats every year from then on. <b>Use original schedule</b> removes it.</p>
+          </section>
+          <section>
+            <h3>One-term exceptions</h3>
             <ol>
-              <li>Choose the <b>Term</b>.</li>
-              <li>Tick each format a course runs in: <b>On-ground</b>, <b>Hybrid</b> or <b>Online</b>. Clear every box to mark it <b>not offered</b>. Changed rows turn yellow.</li>
-              <li>Click <b>Save changes</b>. Leaving or switching terms without saving asks before discarding edits.</li>
+              <li>In <b>One-term exceptions</b>, choose the <b>Term</b>.</li>
+              <li>Tick each format a course runs in that term, or clear every box to mark it <b>not offered</b>. Changed rows turn yellow.</li>
+              <li>Click <b>Save changes</b>. Switching terms or leaving the page without saving asks before discarding edits.</li>
             </ol>
-            <p><b>Use default</b> on a row removes your setting for that course, and <b>Reset whole term to default</b> removes all your settings for the term. Either way, the course goes back to the defaults described above.</p>
+            <p><b>Use default</b> on a row removes that exception. <b>Reset whole term to default</b> removes every exception for the term.</p>
           </section>
           <section>
             <h3>Formats and program versions</h3>
@@ -83,7 +88,22 @@
         <span class="muted small" id="updated"></span>
       </div>
 
-      <section class="panel" id="tab-terms">
+      <section class="panel" id="tab-schedule">
+        <div class="toolbar">
+          <h2>When each course runs</h2>
+          <span class="spacer"></span>
+          <span class="muted small">Key: <b>G</b> on-ground · <b>H</b> hybrid · <b>O</b> online · <b>—</b> not offered · <b>?</b> no data</span>
+        </div>
+        <p class="muted small">Each row shows the next three years. Use <b>Change schedule</b> when a course moves to different terms (for example, a catalogue change from Spring to Fall). Choose the seasons it runs, the formats, and the first term the change applies to. Terms before that keep their current schedule. A cell with a red outline is a one-term exception, set in the <b>One-term exceptions</b> tab.</p>
+        <div class="table-wrap">
+          <table class="fac-table sched-table">
+            <thead id="sched-head"></thead>
+            <tbody id="sched-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="tab-terms" hidden>
         <div class="toolbar">
           <label for="term-select"><b>Term</b></label>
           <select id="term-select"></select>
@@ -92,7 +112,7 @@
           <button class="btn" id="term-reset" type="button">Reset whole term to default</button>
           <button class="btn primary" id="term-save" type="button" disabled>Save changes</button>
         </div>
-        <p class="muted small">Tick each format a course runs in this term; leave all three clear for “not offered”. Rows you haven't changed show the default (see <b>Source</b>). Remember to click <b>Save changes</b>.</p>
+        <p class="muted small">Use this tab for a change that affects <b>one term only</b>, such as a cancelled section or an extra offering. It doesn't change other years. For a lasting change, use <b>Change schedule</b> in the <b>When courses run</b> tab. Tick each format a course runs in this term, or leave all three clear for “not offered”. Rows you haven't changed show the course's regular schedule (see <b>Source</b>). Remember to click <b>Save changes</b>.</p>
         <div class="table-wrap">
           <table class="fac-table">
             <thead><tr><th>Course</th><th>Title</th><th class="c">On-ground</th><th class="c">Hybrid</th><th class="c">Online</th><th>Source</th><th></th></tr></thead>
@@ -113,6 +133,7 @@
       </section>
     </section>
   </main>
+  <dialog id="sched-dialog"><form class="dlg" id="sched-form" method="dialog"></form></dialog>
   <div class="toast" id="toast" role="status" hidden></div>
 </body>
 </html>
